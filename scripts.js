@@ -8123,4 +8123,41 @@ wasISleeping.sleepData = [
     "rating": ""
   }
 ]
-// Data set ends here
+
+// Runs when the document is ready
+$(function() {
+  // Create an object to store user selections - as properties
+  const theDate = {};
+
+  // On form submit, store the user's selections
+  $('#date-form').on('submit', function(event) {
+    event.preventDefault();
+    theDate.theYear = $('#year-selector').val();
+    theDate.theMonth = $('#month-selector').val();
+    theDate.theDay = $('#day-selector').val();
+    theDate.theTime = $('#time-selector').val();
+
+    // Build a date to look up in the data set ("mm-dd-yyyy")
+    const lookupValue = `${theDate.theMonth}-${theDate.theDay}-${theDate.theYear}`;
+
+    // Find the lookup value in the data set, and save all matching entries
+    const matchingEntries = wasISleeping.sleepData.filter((entry) => {
+      return lookupValue === entry.date;
+    });
+
+    // Convert date and time strings into numbers and save for later
+    const yearAsNumber = parseInt(theDate.theYear, 10);
+    const monthAsNumber = parseInt(theDate.theMonth, 10) - 1; // Subtract 1 since January is 0 in Js Date objects
+    const dayAsNumber = parseInt(theDate.theDay, 10);
+    const hourAsNumber = parseInt(theDate.theTime.substr(0, 2), 10); // Get characters 0 and 1 from string
+    const minuteAsNumber = parseInt(theDate.theTime.substr(3, 2), 10); // Get characters 3 and 4 from string
+
+    // Create a new Date object from the user's selected date and time
+    const userDateObject = new Date(yearAsNumber, monthAsNumber, dayAsNumber, hourAsNumber, minuteAsNumber);
+    const now = new Date();
+
+    // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
+    // console.log(userDateObject.getTime() > now.getTime());
+  })
+
+});
