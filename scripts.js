@@ -1,5 +1,21 @@
+// PSEUDOCODE //
+// - user selects year
+// - user selects month
+// - user selects day
+// - user selects time
+// - process combine date selections to match dd-mm-yyyy format in data set
+// - look up selected date in data set
+//   - handle multiple matching dates with poise
+// - check if the selected time falls after I went to sleep and before I woke up
+//   - if yes, 'I WAS SLEEPING' - Display stats too
+//   - if no, 'I WASN'T SLEEPING'
+// - invite to try it again!
+
+// Create an object for the app
+const wasISleeping = {};
+
 // Store the data set
-const sleepData = [
+wasISleeping.sleepData = [
   {
     "date": "03-08-2017",
     "sleepTime": "00:23",
