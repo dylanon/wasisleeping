@@ -8,7 +8,58 @@
 </head>
 <body>
 
-    <p>Hello, world!</p>
+    <section>
+        <h1>Was I Sleeping???</h1>
+        <a href="" class="start">Start</a>
+    </section>
+
+    <section>
+        <label class="instruction" for="year-selector">Pick a year</label>
+        <select name="year" id="year-selector" form="date-form">
+                <option value="2014">2014</option>
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+            </select>
+    </section>
+
+    <section>
+        <label class="instruction" for="month-selector">Pick a month</label>
+        <select name="month" id="month-selector" form="date-form">
+            <option value="01">January</option>
+            <option value="02">February</option>
+            <option value="03">March</option>
+            <option value="04">April</option>
+            <option value="05">May</option>
+            <option value="06">June</option>
+            <option value="07">July</option>
+            <option value="08">August</option>
+            <option value="09">September</option>
+            <option value="10">October</option>
+            <option value="11">November</option>
+            <option value="12">December</option>
+        </select>
+    </section>
+
+    <section>
+            <label class="instruction" for="day-selector">Pick a day</label>
+            <input name="day" type="number" id="day-selector" form="date-form" value="15">
+    </section>
+
+    <section>
+            <label class="instruction" for="time-selector">Pick a time</label>
+            <input name="time" type="time" id="time-selector" form="date-form" value="00:00">
+    </section>
+    <section>
+        <form id="date-form">
+            <label for="submit-button">Check if I was sleeping!</label>
+            <input type="submit" id="submit-button" value="Check if I was sleeping!">
+        </form>
+        <!-- on form submit, the form will disappear and be replaced by a "thinking" visual -->
+    </section>
+    <section class="results">
+        <!-- the results appear here -->
+    </section>
     
         <!-- Load jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
