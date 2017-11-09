@@ -8158,7 +8158,8 @@ function transformData() {
   // Create a Date object for the sleep start time
   // If the sleep time is between 20:00 and 23:59, correct the date to be 1 day prior
   // (e.g. A sleep start of 23:35 and 00:35 both appear in the entry for January 1. 00:35 falls on January 1st, but 23:35 actually falls on December 31.)
-  // Store the sleep start Date object, sleep duration, and sleep rating as properties on an object, within a new array
+  // Create a Date object for the sleep end time
+  // Store the sleep start/end Date objects, sleep duration, and sleep rating as properties on an object within a new array
   const transformed = wasISleeping.sleepData.map((entryObject) => {
     // Split the date string into an array
     const dateAsArray = entryObject.date.split('-');
