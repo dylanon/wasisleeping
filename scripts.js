@@ -8169,7 +8169,7 @@ function transformData() {
     const year = dateAsArray[2];
     const time = entryObject.sleepTime;
 
-    // Create the a Date object for sleep start time
+    // Create a Date object for sleep start time
     const sleepStartDate = createDate(year, month, day, time);
 
     // If sleep started after 8pm and before midnight, adjust to one day earlier than specified in data set
@@ -8178,9 +8178,13 @@ function transformData() {
       sleepStartDate.setDate(sleepStartDate.getDate() - 1);
     }
 
+    // Create a Date object for sleep end time
+    const sleepEndDate = new Date(sleepStartDate.getTime() + entryObject.minutesSlept * 60 * 1000);
+
     // Create an object and store our new values
     const sleepEntry = {};
     sleepEntry.sleepStart = sleepStartDate;
+    sleepEntry.sleepEnd = sleepEndDate;
     sleepEntry.minutesSlept = entryObject.minutesSlept;
     sleepEntry.rating = entryObject.rating;
 
@@ -8214,43 +8218,14 @@ $(function() {
     
     const selectedDate = createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
 
-    // console.log(selectedDate);
-
     // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
-    // console.log(userDateObject.getTime() > now.getTime());
 
-    // Collect entries that match the 
-    const matchingDates = wasISleeping.dataSet.filter((entry) => {
-      return selectedDate.getFullYear() === entry.sleepStart.getFullYear() && selectedDate.getMonth() === entry.sleepStart.getMonth() && selectedDate.getDate() === entry.sleepStart.getDate();
+    // Collect entries where selected time falls within range of sleep start and sleep end
+    const matchingTimes = wasISleeping.dataSet.filter((entry) => {
+      return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
     });
-    // Logs an array of objects that match selected year, month, day
-    console.log(matchingDates);
+    console.log(matchingTimes);
 
-    // matchingDates.forEach((entry) => {
-    //   console.log(selectedDate.getTime());
-    //   console.log(entry.sleepStart.getTime());
-    //   console.log(selectedDate.getTime() - entry.sleepStart.getTime());
-    //   console.log(entry.minutesSlept * 60000);
-
-    //   const difference = selectedDate.getTime() - entry.sleepStart.getTime();
-    //   const millisecondsSlept = entry.minutesSlept * 60000;
-    //   if (difference < millisecondsSlept && difference > 0) {
-    //     console.log('true', entry);
-    //   } else {
-    //     console.log('false', entry);
-    //   }
-    // });
-    const matchingTimes = matchingDates.filter((entry) => {
-      const difference = selectedDate.getTime() - entry.sleepStart.getTime();
-      const millisecondsSlept = entry.minutesSlept * 60 * 1000;
-      return difference <= millisecondsSlept && difference >= 0;
-    });
-    
-    if (matchingTimes.length > 0) {
-      console.log('i was sleeping');
-    } else {
-      console.log('i wasn\'t sleeping');
-    }
-  })
+  });
 
 }); // End of the document-ready 
