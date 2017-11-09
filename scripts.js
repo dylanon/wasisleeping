@@ -8201,37 +8201,56 @@ $(function() {
   // Kickstart the app
   init();
 
-  // Create an object to store user selections - as properties
-  const theDate = {};
+  // Create an object to store user date selections
+  const dateSelections = {};
 
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
-    theDate.theYear = $('#year-selector').val();
-    theDate.theMonth = $('#month-selector').val();
-    theDate.theDay = $('#day-selector').val();
-    theDate.theTime = $('#time-selector').val();
+    dateSelections.year = $('#year-selector').val();
+    dateSelections.month = $('#month-selector').val();
+    dateSelections.day = $('#day-selector').val();
+    dateSelections.time = $('#time-selector').val();
+    
+    const selectedDate = createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
 
-    // Build a date to look up in the data set ("mm-dd-yyyy")
-    const lookupValue = `${theDate.theMonth}-${theDate.theDay}-${theDate.theYear}`;
-
-    // Find the lookup value in the data set, and save all matching entries
-    const matchingEntries = wasISleeping.sleepData.filter((entry) => {
-      return lookupValue === entry.date;
-    });
-
-    // Convert date and time strings into numbers and save for later
-    const yearAsNumber = parseInt(theDate.theYear, 10);
-    const monthAsNumber = parseInt(theDate.theMonth, 10) - 1; // Subtract 1 since January is 0 in Js Date objects
-    const dayAsNumber = parseInt(theDate.theDay, 10);
-    const hourAsNumber = parseInt(theDate.theTime.substr(0, 2), 10); // Get characters 0 and 1 from string
-    const minuteAsNumber = parseInt(theDate.theTime.substr(3, 2), 10); // Get characters 3 and 4 from string
-
-    // Create a new Date object from the user's selected date and time
-    const userDateObject = new Date(yearAsNumber, monthAsNumber, dayAsNumber, hourAsNumber, minuteAsNumber);
+    // console.log(selectedDate);
 
     // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
     // console.log(userDateObject.getTime() > now.getTime());
+
+    // Collect entries that match the 
+    const matchingDates = wasISleeping.dataSet.filter((entry) => {
+      return selectedDate.getFullYear() === entry.sleepStart.getFullYear() && selectedDate.getMonth() === entry.sleepStart.getMonth() && selectedDate.getDate() === entry.sleepStart.getDate();
+    });
+    // Logs an array of objects that match selected year, month, day
+    console.log(matchingDates);
+
+    // matchingDates.forEach((entry) => {
+    //   console.log(selectedDate.getTime());
+    //   console.log(entry.sleepStart.getTime());
+    //   console.log(selectedDate.getTime() - entry.sleepStart.getTime());
+    //   console.log(entry.minutesSlept * 60000);
+
+    //   const difference = selectedDate.getTime() - entry.sleepStart.getTime();
+    //   const millisecondsSlept = entry.minutesSlept * 60000;
+    //   if (difference < millisecondsSlept && difference > 0) {
+    //     console.log('true', entry);
+    //   } else {
+    //     console.log('false', entry);
+    //   }
+    // });
+    const matchingTimes = matchingDates.filter((entry) => {
+      const difference = selectedDate.getTime() - entry.sleepStart.getTime();
+      const millisecondsSlept = entry.minutesSlept * 60 * 1000;
+      return difference <= millisecondsSlept && difference >= 0;
+    });
+    
+    if (matchingTimes.length > 0) {
+      console.log('i was sleeping');
+    } else {
+      console.log('i wasn\'t sleeping');
+    }
   })
 
 }); // End of the document-ready 
