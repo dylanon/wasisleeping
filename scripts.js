@@ -8124,8 +8124,83 @@ wasISleeping.sleepData = [
   }
 ]
 
+// Outputs an array of matching entries for every date that has more than one entry
+// For test purposes only.
+// Warning: An array is output for every matching entry, e.g. If four entries have the same date, the array of matching entries is logged four separate times.
+// function testMatchingDates() {
+//   wasISleeping.sleepData.map(function (entry) {
+//     const matching = wasISleeping.sleepData.filter(function (comparisonEntry) {
+//       return entry.date === comparisonEntry.date;
+//     });
+//     if (matching.length > 1) {
+//       console.log(matching);
+//     }
+//   });
+// }
+
+function createDate(yearX, monthX, dayX, timeX) {
+  // Convert date and time strings into numbers
+  const month = parseInt(monthX, 10) - 1; // Subtract 1 since January is 0 in JavaScript Date objects
+  const day = parseInt(dayX, 10);
+  const year = parseInt(yearX, 10);
+  const hour = parseInt(timeX.substr(0, 2), 10); // Get characters 0 and 1 from string in format '12:34'
+  const minute = parseInt(timeX.substr(3, 2), 10); // Get characters 3 and 4 from string in format '12:34'
+
+  // Create a new Date object
+  const date = new Date(year, month, day, hour, minute);
+  return date;
+}
+
+function transformData() {
+  // For each object in sleep data array:
+  // Split the date string into year, month, day
+  // Split the time string into hour, minute
+  // Create a Date object for the sleep start time
+  // If the sleep time is between 20:00 and 23:59, correct the date to be 1 day prior
+  // (e.g. A sleep start of 23:35 and 00:35 both appear in the entry for January 1. 00:35 falls on January 1st, but 23:35 actually falls on December 31.)
+  // Store the sleep start Date object, sleep duration, and sleep rating as properties on an object, within a new array
+  const transformed = wasISleeping.sleepData.map((entryObject) => {
+    // Split the date string into an array
+    const dateAsArray = entryObject.date.split('-');
+
+    // Store the values need for Date creation
+    const month = dateAsArray[0];
+    const day = dateAsArray[1];
+    const year = dateAsArray[2];
+    const time = entryObject.sleepTime;
+
+    // Create the a Date object for sleep start time
+    const sleepStartDate = createDate(year, month, day, time);
+
+    // If sleep started after 8pm and before midnight, adjust to one day earlier than specified in data set
+    // Compensates for weirdness in how data set handles early bed times
+    if (sleepStartDate.getHours() > 20) {
+      sleepStartDate.setDate(sleepStartDate.getDate() - 1);
+    }
+
+    // Create an object and store our new values
+    const sleepEntry = {};
+    sleepEntry.sleepStart = sleepStartDate;
+    sleepEntry.minutesSlept = entryObject.minutesSlept;
+    sleepEntry.rating = entryObject.rating;
+
+    // Return the object to the map method's array
+    return sleepEntry;
+  });
+  // Return the transformed data set
+  return transformed;
+}
+
+function init() {
+  wasISleeping.dataSet = transformData();
+}
+
 // Runs when the document is ready
 $(function() {
+  
+  // Kickstart the app
+  init();
+
   // Create an object to store user selections - as properties
   const theDate = {};
 
@@ -8154,10 +8229,9 @@ $(function() {
 
     // Create a new Date object from the user's selected date and time
     const userDateObject = new Date(yearAsNumber, monthAsNumber, dayAsNumber, hourAsNumber, minuteAsNumber);
-    const now = new Date();
 
     // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
     // console.log(userDateObject.getTime() > now.getTime());
   })
 
-});
+}); // End of the document-ready 
