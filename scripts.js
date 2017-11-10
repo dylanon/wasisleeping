@@ -3,7 +3,7 @@
 // - user selects month
 // - user selects day
 // - user selects time
-// - process combine date selections to match dd-mm-yyyy format in data set
+// - process combined date selections to match dd-mm-yyyy format in data set
 // - look up selected date in data set
 //   - handle multiple matching dates with poise
 // - check if the selected time falls after I went to sleep and before I woke up
@@ -11,10 +11,10 @@
 //   - if no, 'I WASN'T SLEEPING'
 // - invite to try it again!
 
-// Create an object for the app
+// Create an object for namespacing the app
 const wasISleeping = {};
 
-// Store the data set
+// Store the original data set
 wasISleeping.sleepData = [
   {
     "date": "03-08-2017",
@@ -8124,22 +8124,9 @@ wasISleeping.sleepData = [
   }
 ]
 
-// Outputs an array of matching entries for every date that has more than one entry
-// For test purposes only.
-// Warning: An array is output for every matching entry, e.g. If four entries have the same date, the array of matching entries is logged four separate times.
-// function testMatchingDates() {
-//   wasISleeping.sleepData.map(function (entry) {
-//     const matching = wasISleeping.sleepData.filter(function (comparisonEntry) {
-//       return entry.date === comparisonEntry.date;
-//     });
-//     if (matching.length > 1) {
-//       console.log(matching);
-//     }
-//   });
-// }
-
-function createDate(yearX, monthX, dayX, timeX) {
+wasISleeping.createDate = function(yearX, monthX, dayX, timeX) {
   // Convert date and time strings into numbers
+  // timeX must be formatted as 'hh:mm' in 24 hour time, e.g. '12:34'
   const month = parseInt(monthX, 10) - 1; // Subtract 1 since January is 0 in JavaScript Date objects
   const day = parseInt(dayX, 10);
   const year = parseInt(yearX, 10);
@@ -8151,7 +8138,7 @@ function createDate(yearX, monthX, dayX, timeX) {
   return date;
 }
 
-function events() {
+wasISleeping.events = function() {
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
@@ -8162,7 +8149,7 @@ function events() {
     dateSelections.day = $('#day-selector').val();
     dateSelections.time = $('#time-selector').val();
     
-    const selectedDate = createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
+    const selectedDate = wasISleeping.createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
 
     // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
 
@@ -8186,7 +8173,7 @@ function events() {
   });
 }
 
-function transformData() {
+wasISleeping.transformData = function () {
   // For each object in sleep data array:
   // Split the date string into year, month, day
   // Split the time string into hour, minute
@@ -8195,6 +8182,7 @@ function transformData() {
   // (e.g. A sleep start of 23:35 and 00:35 both appear in the entry for January 1. 00:35 falls on January 1st, but 23:35 actually falls on December 31.)
   // Create a Date object for the sleep end time
   // Store the sleep start/end Date objects, sleep duration, and sleep rating as properties on an object within a new array
+
   const transformed = wasISleeping.sleepData.map((entryObject) => {
     // Split the date string into an array
     const dateAsArray = entryObject.date.split('-');
@@ -8206,7 +8194,7 @@ function transformData() {
     const time = entryObject.sleepTime;
 
     // Create a Date object for sleep start time
-    const sleepStartDate = createDate(year, month, day, time);
+    const sleepStartDate = wasISleeping.createDate(year, month, day, time);
 
     // If sleep started after 8pm and before midnight, adjust to one day earlier than specified in data set
     // Compensates for weirdness in how data set handles early bed times
@@ -8227,21 +8215,18 @@ function transformData() {
     // Return the object to the map method's array
     return sleepEntry;
   });
-  // Return the transformed data set
+  // Return the transformed data set array
   return transformed;
 }
 
 function init() {
   // Transform a copy of the sleep data into a useable format
-  wasISleeping.dataSet = transformData();
+  wasISleeping.dataSet = wasISleeping.transformData();
   // Listen for events
-  events();
+  wasISleeping.events();
 }
 
 // Runs when the document is ready
 $(function() {
-  
-  // Kickstart the app
   init();
-
-}); // End of the document-ready 
+});
