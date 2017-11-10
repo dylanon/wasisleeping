@@ -8139,6 +8139,51 @@ wasISleeping.createDate = function(yearX, monthX, dayX, timeX) {
 }
 
 wasISleeping.events = function() {
+  // When the year is chosen, populate the months that have data
+  $('#year-selector').on('change', function() {
+    // Get the year
+    const workingYear = $('#year-selector').val();
+
+    // Set up an array to store the available months
+    const monthsInYear = [];
+
+    // Collect the months from all sleep starts and sleep ends in the year
+    wasISleeping.dataSet.forEach((entry) => {
+
+      // Store month of sleep start
+      if (entry.sleepStart.getFullYear() == workingYear) {
+      const entryMonth = entry.sleepStart.getMonth();
+        if (monthsInYear.includes(entryMonth) === false) {
+          monthsInYear.push(entryMonth);
+        }
+      }
+
+      // Store month of sleep end
+      if (entry.sleepEnd.getFullYear() == workingYear) {
+        const entryMonth = entry.sleepEnd.getMonth();
+        if (monthsInYear.includes(entryMonth) === false) {
+          monthsInYear.push(entryMonth);
+        }
+      }
+
+    });
+
+    // Sort array of month numbers ascending
+    monthsInYear.sort((a, b) => (a - b));
+
+    // Empty the month selector
+    $('#month-selector').empty();
+
+    // Build the option markup
+    monthsInYear.forEach((monthNumber) => {
+      const monthOptionMarkup = $('<option>')
+        .text(wasISleeping.monthNames[monthNumber])
+        .val(monthNumber + 1);
+      $('#month-selector').append(monthOptionMarkup);
+    });
+
+  });
+
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
@@ -8188,8 +8233,8 @@ wasISleeping.findDataRange = function() {
   }); 
 
   const dataRange = {};
-  dataRange.earliestTime = new Date(Math.min(...startTimes));
-  dataRange.latestTime = new Date(Math.max(...endTimes));
+  dataRange.earliestDate = new Date(Math.min(...startTimes));
+  dataRange.latestDate = new Date(Math.max(...endTimes));
 
   return dataRange;
 }
@@ -8245,7 +8290,23 @@ function init() {
   wasISleeping.dataSet = wasISleeping.transformData();
 
   // Find the range of times in the data set
-  const dataRange = wasISleeping.findDataRange();
+  wasISleeping.dataRange = wasISleeping.findDataRange();
+
+  // Set up month names
+  wasISleeping.monthNames = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ]
 
   // Listen for events
   wasISleeping.events();
