@@ -8173,6 +8173,27 @@ wasISleeping.events = function() {
   });
 }
 
+wasISleeping.findDataRange = function() {
+  // Create an array of sleep start times (as number)
+  // Find the smallest number
+  // Create an array of sleep end times (as number)
+  // Find the biggest number
+
+  const startTimes = wasISleeping.dataSet.map(entry => {
+    return entry.sleepStart.getTime();
+  });
+
+  const endTimes = wasISleeping.dataSet.map(entry => {
+    return entry.sleepEnd.getTime();
+  }); 
+
+  const dataRange = {};
+  dataRange.earliestTime = new Date(Math.min(...startTimes));
+  dataRange.latestTime = new Date(Math.max(...endTimes));
+
+  return dataRange;
+}
+
 wasISleeping.transformData = function () {
   // For each object in sleep data array:
   // Split the date string into year, month, day
@@ -8222,6 +8243,10 @@ wasISleeping.transformData = function () {
 function init() {
   // Transform a copy of the sleep data into a useable format
   wasISleeping.dataSet = wasISleeping.transformData();
+
+  // Find the range of times in the data set
+  const dataRange = wasISleeping.findDataRange();
+
   // Listen for events
   wasISleeping.events();
 }
