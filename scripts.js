@@ -8151,6 +8151,41 @@ function createDate(yearX, monthX, dayX, timeX) {
   return date;
 }
 
+function events() {
+  // On form submit, store the user's selections
+  $('#date-form').on('submit', function(event) {
+    event.preventDefault();
+    // Create an object to store user date selections
+    const dateSelections = {};
+    dateSelections.year = $('#year-selector').val();
+    dateSelections.month = $('#month-selector').val();
+    dateSelections.day = $('#day-selector').val();
+    dateSelections.time = $('#time-selector').val();
+    
+    const selectedDate = createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
+
+    // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
+
+    // Collect entries where selected time falls within range of sleep start and sleep end (in an array)
+    const matchingTimes = wasISleeping.dataSet.filter((entry) => {
+      return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
+    });
+
+    // Create results markup to inject into page
+    let resultsMarkup = $('<h1>');
+
+    // Check if there were any matches and populate the results markup
+    if (matchingTimes.length > 0) {
+      resultsMarkup.html('Nice! - I <em>was</em> sleeping!');
+    } else {
+      resultsMarkup.html('<em>Sarry</em> - I was <em>wide awake</em>!')
+    }
+
+    // Put results on the page
+    $('.results').html(resultsMarkup);
+  });
+}
+
 function transformData() {
   // For each object in sleep data array:
   // Split the date string into year, month, day
@@ -8197,7 +8232,10 @@ function transformData() {
 }
 
 function init() {
+  // Transform a copy of the sleep data into a useable format
   wasISleeping.dataSet = transformData();
+  // Listen for events
+  events();
 }
 
 // Runs when the document is ready
@@ -8205,39 +8243,5 @@ $(function() {
   
   // Kickstart the app
   init();
-
-  // Create an object to store user date selections
-  const dateSelections = {};
-
-  // On form submit, store the user's selections
-  $('#date-form').on('submit', function(event) {
-    event.preventDefault();
-    dateSelections.year = $('#year-selector').val();
-    dateSelections.month = $('#month-selector').val();
-    dateSelections.day = $('#day-selector').val();
-    dateSelections.time = $('#time-selector').val();
-    
-    const selectedDate = createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
-
-    // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
-
-    // Collect entries where selected time falls within range of sleep start and sleep end (in an array)
-    const matchingTimes = wasISleeping.dataSet.filter((entry) => {
-      return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
-    });
-
-    // Create results markup to inject into page
-    let resultsMarkup = $('<h1>');
-
-    // Check if there were any matches and populate the results markup
-    if (matchingTimes.length > 0) {
-      resultsMarkup.html('Nice! - I <em>was</em> sleeping!');
-    } else {
-      resultsMarkup.html('<em>Sarry</em> - I was <em>wide awake</em>!')
-    }
-
-    // Put results on the page
-    $('.results').html(resultsMarkup);
-  });
 
 }); // End of the document-ready 
