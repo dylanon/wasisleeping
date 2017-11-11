@@ -8173,6 +8173,10 @@ wasISleeping.events = function() {
 
     // Empty the month selector
     $('#month-selector').empty();
+    $('#month-selector').append($('<option>')
+      .text('Month (Pick a year first)')
+      .val('')
+    );
 
     // Build the option markup
     monthsInYear.forEach((monthNumber) => {
@@ -8220,7 +8224,11 @@ wasISleeping.events = function() {
 
     // Empty the month selector
     $('#day-selector').empty();
-
+    $('#day-selector').append($('<option>')
+      .text('Day (Pick a month first)')
+      .val('')
+    );
+    
     // Build the option markup
     daysInMonth.forEach((dayNumber) => {
       const dayOptionMarkup = $('<option>')
