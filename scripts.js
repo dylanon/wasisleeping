@@ -8263,7 +8263,7 @@ wasISleeping.events = function() {
 
     // Compare with earliest and latest dates from data
     if (workingDate.getTime() < wasISleeping.dataRange.earliestDate.getTime()) {
-      alert('Oops - I hadn\'nt yet started sleep tracking. Try a later time.');
+      alert('Oops - I hadn\'t yet started sleep tracking. Try a later time.');
       $('#time-selector').val('');
     } else if (workingDate.getTime() > wasISleeping.dataRange.latestDate.getTime()) {
       alert('Oops - I stopped sleep tracking by then. Try an earlier time.');
@@ -8291,17 +8291,53 @@ wasISleeping.events = function() {
     });
 
     // Create results markup to inject into page
-    let resultsMarkup = $('<h1>');
+    // let resultsMarkup = '';
 
-    // Check if there were any matches and populate the results markup
+    // Check if there were any matches and display the results markup
     if (matchingTimes.length > 0) {
-      resultsMarkup.html('Nice! - I <em>was</em> sleeping!');
-    } else {
-      resultsMarkup.html('<em>Sarry</em> - I was <em>wide awake</em>!')
-    }
+      // h1 - was sleeping
+      // p for I slept for x hours something minutes, from start time to end time
+      // p ...and i rated it like this!
 
-    // Put results on the page
-    $('.results').html(resultsMarkup);
+      const heading = $('<h1>');
+      const stats = $('<p>');
+      const rating = $('<p>');
+      const hours = Math.floor(matchingTimes[0].minutesSlept / 60);
+      const minutes = matchingTimes[0].minutesSlept % 60;
+      const startTime = matchingTimes[0].sleepStart.getHours() + ':' + matchingTimes[0].sleepStart.getMinutes();
+      const endTime = matchingTimes[0].sleepEnd.getHours() + ':' + matchingTimes[0].sleepEnd.getMinutes();
+      const entryRating = matchingTimes[0].rating;
+
+      heading.html('I <em>was</em> sleeping!');
+      stats.html(`I slept for ${hours} hours, ${minutes} minutes from ${startTime} to ${endTime}. `);
+      rating.html(`I rated my sleep quality ${entryRating} out of 4.`);
+
+      // Put results on the page
+      $('.results').empty();
+      $('.results').append(heading);
+      $('.results').append(stats);
+      // If the rating has a value ('no value' is actually an empty string)
+      if (entryRating > 0) {
+        $('.results').append(rating);
+      }
+
+    } else {
+      // h1 - wasn't sleeping
+      // p I was probably x
+      // p The next time I slept was... x
+
+      const heading = $('<h1>');
+      const message = $('<p>');
+
+      heading.html('I <em>wasn\'t</em> sleeping.');
+      message.html('Try another time!');
+
+      // Put results on the page
+      $('.results').empty();
+      $('.results').append(heading);
+      $('.results').append(message);
+
+    }
   });
 }
 
