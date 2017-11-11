@@ -8239,6 +8239,33 @@ wasISleeping.events = function() {
 
   }); // #month-selector on change listener ends
 
+  // When the time is changed, warn if it's out of range
+  $('#time-selector').on('change', function() {
+    // Get the year
+    const workingYear = $('#year-selector').val();
+    
+    // Get the month
+    const workingMonth = $('#month-selector').val();
+
+    // Get the day
+    const workingDay = $('#day-selector').val();
+
+    // Get the time
+    const workingTime = $('#time-selector').val();
+
+    // Create a date
+    const workingDate = wasISleeping.createDate(workingYear, workingMonth, workingDay, workingTime);
+
+    // Compare with earliest and latest dates from data
+    if (workingDate.getTime() < wasISleeping.dataRange.earliestDate.getTime()) {
+      alert('Oops - I hadn\'nt yet started sleep tracking. Try a later time.');
+      $('#time-selector').val('');
+    } else if (workingDate.getTime() > wasISleeping.dataRange.latestDate.getTime()) {
+      alert('Oops - I stopped sleep tracking by then. Try an earlier time.');
+      $('#time-selector').val('');
+    }
+  });
+
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
