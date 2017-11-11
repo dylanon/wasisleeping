@@ -16,12 +16,12 @@
     <section>
         <label class="instruction" for="year-selector">Pick a year</label>
         <select name="year" id="year-selector" form="date-form">
-                <option value="">Pick a year!</option>
-                <option value="2014">2014</option>
-                <option value="2015">2015</option>
-                <option value="2016">2016</option>
-                <option value="2017">2017</option>
-            </select>
+            <option value="">Pick a year!</option>
+            <option value="2014">2014</option>
+            <option value="2015">2015</option>
+            <option value="2016">2016</option>
+            <option value="2017">2017</option>
+        </select>
     </section>
 
     <section>
@@ -33,7 +33,9 @@
 
     <section>
             <label class="instruction" for="day-selector">Pick a day</label>
-            <input name="day" type="number" id="day-selector" form="date-form" value="16">
+            <select name="day" id="day-selector" form="date-form">
+                <option value="">Day (Pick a month first)</option>
+            </select>
     </section>
 
     <section>

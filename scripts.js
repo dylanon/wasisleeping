@@ -8127,7 +8127,7 @@ wasISleeping.sleepData = [
 wasISleeping.createDate = function(yearX, monthX, dayX, timeX) {
   // Convert date and time strings into numbers
   // timeX must be formatted as 'hh:mm' in 24 hour time, e.g. '12:34'
-  const month = parseInt(monthX, 10) - 1; // Subtract 1 since January is 0 in JavaScript Date objects
+  const month = parseInt(monthX, 10);
   const day = parseInt(dayX, 10);
   const year = parseInt(yearX, 10);
   const hour = parseInt(timeX.substr(0, 2), 10); // Get characters 0 and 1 from string in format '12:34'
@@ -8178,11 +8178,58 @@ wasISleeping.events = function() {
     monthsInYear.forEach((monthNumber) => {
       const monthOptionMarkup = $('<option>')
         .text(wasISleeping.monthNames[monthNumber])
-        .val(monthNumber + 1);
+        .val(monthNumber);
       $('#month-selector').append(monthOptionMarkup);
     });
+  }); // #year-selector on change listener ends
 
-  });
+  // When the month is chosen, populate the days that have data
+  $('#month-selector').on('change', function() {
+    // Get the year
+    const workingYear = $('#year-selector').val();
+
+    // Get the month
+    const workingMonth = $('#month-selector').val();
+
+    // Set up an array to store the available days
+    const daysInMonth = [];
+    
+    // Collect the days from all sleep starts and sleep ends in the month
+    wasISleeping.dataSet.forEach((entry) => {
+
+      // Store month of sleep start
+      if (entry.sleepStart.getMonth() == workingMonth && entry.sleepStart.getFullYear() == workingYear) {
+      const entryDay = entry.sleepStart.getDate();
+        if (daysInMonth.includes(entryDay) === false) {
+          daysInMonth.push(entryDay);
+        }
+      }
+
+      // Store month of sleep end
+      if (entry.sleepEnd.getMonth() == workingMonth && entry.sleepEnd.getFullYear() == workingYear) {
+        const entryDay = entry.sleepEnd.getDate();
+        if (daysInMonth.includes(entryDay) === false) {
+          daysInMonth.push(entryDay);
+        }
+      }
+
+    });
+
+    // Sort array of month numbers ascending
+    daysInMonth.sort((a, b) => (a - b));
+
+    // Empty the month selector
+    $('#day-selector').empty();
+
+    // Build the option markup
+    daysInMonth.forEach((dayNumber) => {
+      const dayOptionMarkup = $('<option>')
+        .text(dayNumber)
+        .val(dayNumber);
+      $('#day-selector').append(dayOptionMarkup);
+    });
+
+  }); // #month-selector on change listener ends
 
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
@@ -8253,8 +8300,8 @@ wasISleeping.transformData = function () {
     // Split the date string into an array
     const dateAsArray = entryObject.date.split('-');
 
-    // Store the values need for Date creation
-    const month = dateAsArray[0];
+    // Store the values needed for Date creation
+    const month = dateAsArray[0] - 1; // Adjust month since JavaScript months are zero-based
     const day = dateAsArray[1];
     const year = dateAsArray[2];
     const time = entryObject.sleepTime;
