@@ -8239,6 +8239,11 @@ wasISleeping.events = function() {
 
   }); // #month-selector on change listener ends
 
+  // When the day is changed, reset the time
+  $('#day-selector').on('change', function() {
+    $('#time-selector').val('');
+  });
+
   // When the time is changed, warn if it's out of range
   $('#time-selector').on('change', function() {
     // Get the year
