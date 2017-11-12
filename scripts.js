@@ -8308,8 +8308,8 @@ wasISleeping.events = function() {
       const rating = $('<p>');
       const hours = Math.floor(matchingTimes[0].minutesSlept / 60);
       const minutes = matchingTimes[0].minutesSlept % 60;
-      const startTime = matchingTimes[0].sleepStart.getHours() + ':' + matchingTimes[0].sleepStart.getMinutes();
-      const endTime = matchingTimes[0].sleepEnd.getHours() + ':' + matchingTimes[0].sleepEnd.getMinutes();
+      const startTime = matchingTimes[0].sleepStartString;
+      const endTime = matchingTimes[0].sleepEndString;
       const entryRating = matchingTimes[0].rating;
 
       heading.html('I <span class="success-accent">was</span> sleeping!');
@@ -8419,6 +8419,8 @@ wasISleeping.transformData = function () {
     const sleepEntry = {};
     sleepEntry.sleepStart = sleepStartDate;
     sleepEntry.sleepEnd = sleepEndDate;
+    sleepEntry.sleepStartString = entryObject.sleepTime;
+    sleepEntry.sleepEndString = entryObject.awakeTime;
     sleepEntry.minutesSlept = entryObject.minutesSlept;
     sleepEntry.rating = entryObject.rating;
 
