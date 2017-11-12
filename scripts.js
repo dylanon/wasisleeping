@@ -8275,85 +8275,97 @@ wasISleeping.events = function() {
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
 
-    // Simulate a click to advance screen to the results section
-    $('a.submit-scroll-trigger').trigger('click');
-
-    // Create an object to store user date selections
+    // Create an object and store user date selections
     const dateSelections = {};
     dateSelections.year = $('#year-selector').val();
     dateSelections.month = $('#month-selector').val();
     dateSelections.day = $('#day-selector').val();
     dateSelections.time = $('#time-selector').val();
-    
-    const selectedDate = wasISleeping.createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
 
-    // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
+    // Only look for matches if all of the selections are filled out
+    if (dateSelections.year.length === 0 || dateSelections.month.length === 0 || dateSelections.day.length === 0 || dateSelections.time.length === 0) {
 
-    // Collect entries where selected time falls within range of sleep start and sleep end (in an array)
-    const matchingTimes = wasISleeping.dataSet.filter((entry) => {
-      return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
-    });
-
-    // Create results markup to inject into page
-    // let resultsMarkup = '';
-
-    // Check if there were any matches and display the results markup
-    if (matchingTimes.length > 0) {
-      // h1 - was sleeping
-      // p for I slept for x hours something minutes, from start time to end time
-      // p ...and i rated it like this!
-
-      const heading = $('<h2>');
-      const stats = $('<p>');
-      const rating = $('<p>');
-      const hours = Math.floor(matchingTimes[0].minutesSlept / 60);
-      const minutes = matchingTimes[0].minutesSlept % 60;
-      const startTime = matchingTimes[0].sleepStartString;
-      const endTime = matchingTimes[0].sleepEndString;
-      const entryRating = matchingTimes[0].rating;
-
-      heading.html('I <span class="success-accent">was</span> sleeping!');
-      stats.html(`I slept for <span class="success-accent">${hours} hours, ${minutes} minutes</span> from ${startTime} to ${endTime}. `);
-      rating.html(`I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
-
-      // Put results on the page
-      $('.results').empty();
-      $('.results').append(heading);
-      $('.results').append(stats);
-      // If the rating has a value ('no value' is actually an empty string)
-      if (entryRating > 0) {
-        $('.results').append(rating);
-      }
+      $('.submit-warning').html(`<p>Oops - Scroll up to complete your selections!</p>`);
 
     } else {
-      // h1 - wasn't sleeping
-      // p I was probably x
-      // p The next time I slept was... x
+      // Clear any warnings
+      $('.submit-warning').empty();
 
-      const heading = $('<h2>');
-      const message = $('<p>');
-      const tryAgain = $('<p>');
+      // Simulate a click to advance screen to the results section
+      $('a.submit-scroll-trigger').trigger('click');
 
-      heading.html('I was <span class="failure-accent">wide awake</span>.');
-      message.html('I probably <span class="failure-accent">drank a lot of coffee</span>.');
-      tryAgain.html('Try another time!');
-
-      // Put results on the page
-      $('.results').empty();
-      $('.results').append(heading);
-      $('.results').append(message);
-      $('.results').append(tryAgain);
-
+      // Create a Date object with the selections
+      const selectedDate = wasISleeping.createDate(dateSelections.year, dateSelections.month, dateSelections.day, dateSelections.time);
+  
+      // Compare milliseconds since January 1, 1970, 00:00:00 UTC for each date, since directly comparing Date objects is unreliable. More here: https://docs.microsoft.com/en-us/scripting/javascript/calculating-dates-and-times-javascript#comparing-dates
+  
+      // Collect entries where selected time falls within range of sleep start and sleep end (in an array)
+      const matchingTimes = wasISleeping.dataSet.filter((entry) => {
+        return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
+      });
+  
+      // Create results markup to inject into page
+      // let resultsMarkup = '';
+  
+      // Check if there were any matches and display the results markup
+      if (matchingTimes.length > 0) {
+        // h1 - was sleeping
+        // p for I slept for x hours something minutes, from start time to end time
+        // p ...and i rated it like this!
+  
+        const heading = $('<h2>');
+        const stats = $('<p>');
+        const rating = $('<p>');
+        const hours = Math.floor(matchingTimes[0].minutesSlept / 60);
+        const minutes = matchingTimes[0].minutesSlept % 60;
+        const startTime = matchingTimes[0].sleepStartString;
+        const endTime = matchingTimes[0].sleepEndString;
+        const entryRating = matchingTimes[0].rating;
+  
+        heading.html('I <span class="success-accent">was</span> sleeping!');
+        stats.html(`I slept for <span class="success-accent">${hours} hours, ${minutes} minutes</span> from ${startTime} to ${endTime}. `);
+        rating.html(`I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
+  
+        // Put results on the page
+        $('.results').empty();
+        $('.results').append(heading);
+        $('.results').append(stats);
+        // If the rating has a value ('no value' is actually an empty string)
+        if (entryRating > 0) {
+          $('.results').append(rating);
+        }
+  
+      } else {
+        // h1 - wasn't sleeping
+        // p I was probably x
+        // p The next time I slept was... x
+  
+        const heading = $('<h2>');
+        const message = $('<p>');
+        const tryAgain = $('<p>');
+  
+        heading.html('I was <span class="failure-accent">wide awake</span>.');
+        message.html('I probably <span class="failure-accent">drank a lot of coffee</span>.');
+        tryAgain.html('Try another time!');
+  
+        // Put results on the page
+        $('.results').empty();
+        $('.results').append(heading);
+        $('.results').append(message);
+        $('.results').append(tryAgain);
+  
+      }
+  
+      // Display button to try it again
+      const reloadForm = $('<form>').addClass('reload-form');
+      const reloadButton = $('<input>').attr('type', 'submit').val('Try it again');
+      reloadForm.append(reloadButton);
+      
+      $('.results').append(reloadForm);
+      $('.reload-form').delay(1500).fadeTo(800, 1);
     }
-
-    // Display button to try it again
-    const reloadForm = $('<form>').addClass('reload-form');
-    const reloadButton = $('<input>').attr('type', 'submit').val('Try it again');
-    reloadForm.append(reloadButton);
     
-    $('.results').append(reloadForm);
-    $('.reload-form').delay(1500).fadeTo(800, 1);
-  });
+  }); // end of on form submit event listener
 }
 
 wasISleeping.findDataRange = function() {
