@@ -5,13 +5,16 @@
 
  */
 
- // Variables
+// Variables
 
- $max-content-width: 750px;
+$max-content-width: 750px;
 
- $text-color: #ffffff;
- $link-color: #ffffff;
- $background-color: darkblue;
+$text-color: #373737;
+$link-color: #373737;
+$background-color: #f0f0f0;
+$white: #ffffff;
+$black: #000000;
 
 @import 'partials/setup';
+@import 'partials/mixins';
 @import 'partials/globals';

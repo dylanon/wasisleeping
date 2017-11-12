@@ -1,0 +1,9 @@
+// Mixins
+
+@mixin bevinFont {
+    font-family: 'Bevan', cursive;
+}
+
+@mixin opensansFont {
+    font-family: 'Open Sans', sans-serif;
+}
