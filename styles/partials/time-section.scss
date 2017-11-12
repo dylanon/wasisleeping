@@ -1,8 +1,33 @@
 /* Time Section */
 
-input[type=time],
-input[type=submit] {
+input[type=time] {
     margin: 2rem 0;
+}
+
+input[type=time] {
+    border: 2px solid $text-color;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    font-size: 2.8rem;
+    text-align: center;
+}
+
+input[type=submit] {
+    margin: 5rem 0;
+    background: $text-color;
+    color: $background-color;
+    font-size: 3rem;
+    text-transform: lowercase;
+    border: 2px solid $text-color;
+    border-radius: 15px;
+    padding: 1rem 2rem;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
+
+    &:hover {
+        background-color: $success-color;
+    }
 }
 
 .submit-scroll-trigger {
