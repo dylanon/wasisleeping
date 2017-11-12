@@ -8,6 +8,14 @@ header {
     margin: 4rem 0;
     color: lighten($text-color, 10%);
 
+    p {
+        margin: 0.75rem;
+
+        @media (max-width: 480px) {
+         margin: 2rem;   
+        }
+    }
+
     span {
         font-size: 1.4em;
     }
