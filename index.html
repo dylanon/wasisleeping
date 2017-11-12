@@ -4,57 +4,84 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/style.css">
     <title>Was I Sleeping?</title>
 </head>
 <body>
+    <div class="wrapper">
 
-    <section>
-        <h1>Was I Sleeping???</h1>
-        <a href="" class="start">Start</a>
-    </section>
+        <header class="fullscreen-section">
+            <div class="section-content">
+                <h1>Was I Sleeping???</h1>
+                <a href="#year-section" class="scroll-button">Start</a>
+            </div>
+        </header>
+        
+        <main>
+            <section id="year-section" class="fullscreen-section">
+                <div class="section-content">
+                    <label class="instruction" for="year-selector">Pick a year</label>
+                    <select name="year" id="year-selector" form="date-form">
+                        <option value="">Pick a year!</option>
+                        <option value="2014">2014</option>
+                        <option value="2015">2015</option>
+                        <option value="2016">2016</option>
+                        <option value="2017">2017</option>
+                    </select>
+                    <a href="#month-section" class="scroll-button">Next</a>
+                </div>
+            </section>
+            
+            <section id="month-section" class="fullscreen-section">
+                <div class="section-content">
+                    <label class="instruction" for="month-selector">Pick a month</label>
+                    <select name="month" id="month-selector" form="date-form">
+                        <option value="">Month (Pick a year first)</option>
+                    </select>
+                    <a href="#day-section" class="scroll-button">Next</a>
+                </div>
+            </section>
+            
+            <section id="day-section" class="fullscreen-section">
+                <div class="section-content">
+                    <label class="instruction" for="day-selector">Pick a day</label>
+                    <select name="day" id="day-selector" form="date-form">
+                        <option value="">Day (Pick a month first)</option>
+                    </select>
+                    <a href="#time-section" class="scroll-button">Next</a>
+                </div>
+            </section>
+            
+            <section id="time-section" class="fullscreen-section">
+                <div class="section-content">
+                    <label class="instruction" for="time-selector">Pick a time</label>
+                    <input name="time" type="time" id="time-selector" form="date-form" value="">
+                    <a href="#submit-section" class="scroll-button">Next</a>
+                </div>
+            </section>
+            
+            <section id="submit-section" class="fullscreen-section">
+                <div class="results section-content">
+                    <form id="date-form">
+                        <label for="submit-button">Check if I was sleeping!</label>
+                        <input type="submit" id="submit-button" value="Check if I was sleeping!">
+                    </form>
+                    <!-- on form submit, the form will disappear and be replaced by a "thinking" visual -->
+                </div>
+            </section>
+        
+            <!-- <section class="fullscreen-section">
+                <div class="results section-content"> -->
+                    <!-- the results appear here -->
+                <!-- </div>
+            </section> -->
+        </main>
+    </div><!-- .wrapper -->
 
-    <section>
-        <label class="instruction" for="year-selector">Pick a year</label>
-        <select name="year" id="year-selector" form="date-form">
-            <option value="">Pick a year!</option>
-            <option value="2014">2014</option>
-            <option value="2015">2015</option>
-            <option value="2016">2016</option>
-            <option value="2017">2017</option>
-        </select>
-    </section>
-
-    <section>
-        <label class="instruction" for="month-selector">Pick a month</label>
-        <select name="month" id="month-selector" form="date-form">
-            <option value="">Month (Pick a year first)</option>
-        </select>
-    </section>
-
-    <section>
-            <label class="instruction" for="day-selector">Pick a day</label>
-            <select name="day" id="day-selector" form="date-form">
-                <option value="">Day (Pick a month first)</option>
-            </select>
-    </section>
-
-    <section>
-            <label class="instruction" for="time-selector">Pick a time</label>
-            <input name="time" type="time" id="time-selector" form="date-form" value="">
-    </section>
-    <section>
-        <form id="date-form">
-            <label for="submit-button">Check if I was sleeping!</label>
-            <input type="submit" id="submit-button" value="Check if I was sleeping!">
-        </form>
-        <!-- on form submit, the form will disappear and be replaced by a "thinking" visual -->
-    </section>
-    <section class="results">
-        <!-- the results appear here -->
-    </section>
-    
         <!-- Load jQuery library -->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <!-- Load Smooth Scroll jQuery Plugin -->
+        <script src="smoothScroll.js"></script>
         <!-- Load custom JS -->
         <script src="scripts.js"></script>
 </body>
