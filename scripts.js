@@ -8138,6 +8138,16 @@ wasISleeping.createDate = function(yearX, monthX, dayX, timeX) {
   return date;
 }
 
+wasISleeping.displayInstructions = function() {
+  const firstYear = wasISleeping.dataRange.earliestDate.getFullYear();
+  const lastYear = wasISleeping.dataRange.latestDate.getFullYear();
+  const numberOfSleeps = wasISleeping.dataSet.length;
+  $('.first-year').text(firstYear);
+  $('.last-year').text(lastYear);
+  $('.number-of-sleeps').text(numberOfSleeps);
+  $('.instructions').fadeTo(500, 1);
+}
+
 wasISleeping.events = function() {
   // When the year is chosen, populate the months that have data
   $('#year-selector').on('change', function() {
@@ -8324,7 +8334,7 @@ wasISleeping.events = function() {
   
         heading.html('I <span class="success-accent">was</span> sleeping!');
         stats.html(`I slept for <span class="success-accent">${hours} hours, ${minutes} minutes</span> from ${startTime} to ${endTime}. `);
-        rating.html(`I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
+        rating.html(`When I woke up, I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
   
         // Put results on the page
         $('.results').empty();
@@ -8466,11 +8476,14 @@ function init() {
     'December'
   ]
 
-  // Listen for events
-  wasISleeping.events();
+  // Output instructins
+  wasISleeping.displayInstructions();
 
   // Set up smooth scrolling
   wasISleeping.smoothScroll();
+
+  // Listen for events
+  wasISleeping.events();
 }
 
 // Runs when the document is ready

@@ -8,7 +8,7 @@ body {
     background: $background-color;
     color: $text-color;
     @include bevinFont;
-    font-size: 1.6rem; // Set base font size to ~16px
+    font-size: 2rem; // Set base font size to ~16px
     text-transform: lowercase;
 }
 

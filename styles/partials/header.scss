@@ -2,3 +2,13 @@
 header {
     background: url(../images/system_sleep_by_sahua_d.svg) center 10vh no-repeat;
 }
+
+.instructions {
+    opacity: 0;
+    margin: 4rem 0;
+    color: lighten($text-color, 10%);
+
+    span {
+        font-size: 1.4em;
+    }
+}
