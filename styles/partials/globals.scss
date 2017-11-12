@@ -21,6 +21,15 @@ h1 {
     font-size: 7rem;
 }
 
+h2 {
+    font-size: 6rem;
+}
+
+h1,
+h2 {
+    margin-top: 0;
+}
+
 label {
     display: block;
 }
@@ -58,9 +67,18 @@ option {
     border: 2px solid $text-color;
     border-radius: 50%;
     font-size: 2.4rem;
+    transition:
+        background-color 0.3s ease,
+        color 0.3s ease;
 
     p {
         margin: auto;
+    }
+
+    &:hover,
+    &:focus {
+        background-color: $text-color;
+        color: $background-color;
     }
 }
 
