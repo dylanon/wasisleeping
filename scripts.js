@@ -8274,6 +8274,10 @@ wasISleeping.events = function() {
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
+
+    // Simulate a click to advance screen to the results section
+    $('a.submit-scroll-trigger').trigger('click');
+
     // Create an object to store user date selections
     const dateSelections = {};
     dateSelections.year = $('#year-selector').val();

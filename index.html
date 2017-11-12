@@ -65,27 +65,21 @@
                 <div class="section-content">
                     <h2><label class="instruction" for="time-selector">What time?</label></h2>
                     <input name="time" type="time" id="time-selector" form="date-form" value="">
-                    <a href="#submit-section" class="scroll-button">
-                        <p>Next</p>
-                    </a>
-                </div>
-            </section>
-            
-            <section id="submit-section" class="fullscreen-section">
-                <div class="results section-content">
                     <form id="date-form">
-                        <h2><label for="submit-button">Check if I was sleeping!</label></h2>
+                        <label for="submit-button">Check if I was sleeping!</label>
                         <input type="submit" id="submit-button" value="Check if I was sleeping!">
                     </form>
-                    <!-- on form submit, the form will disappear and be replaced by a "thinking" visual -->
+                    <!-- This hidden link is triggered when the form submits - scrolls the screen to results section -->
+                    <a href="#results-section" class="scroll-button submit-scroll-trigger"></a>
                 </div>
             </section>
         
-            <!-- <section class="fullscreen-section">
-                <div class="results section-content"> -->
-                    <!-- the results appear here -->
-                <!-- </div>
-            </section> -->
+            <section id="results-section" class="fullscreen-section">
+                <div class="results section-content">
+                    <!-- on form submit, we'll see a "thinking" visual -->
+                    <!-- then, the results appear here -->
+                </div>
+            </section>
         </main>
     </div><!-- .wrapper -->
 
