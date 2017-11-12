@@ -8174,7 +8174,7 @@ wasISleeping.events = function() {
     // Empty the month selector
     $('#month-selector').empty();
     $('#month-selector').append($('<option>')
-      .text('Month (Pick a year first)')
+      .text('Select a month')
       .val('')
     );
 
@@ -8225,7 +8225,7 @@ wasISleeping.events = function() {
     // Empty the month selector
     $('#day-selector').empty();
     $('#day-selector').append($('<option>')
-      .text('Day (Pick a month first)')
+      .text('Select a day')
       .val('')
     );
     
