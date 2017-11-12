@@ -34,10 +34,19 @@ label {
     display: block;
 }
 
-select {
-    background: rgb(223, 223, 223);
-    padding: 15px;
+.select-container {
+    border: 2px solid $text-color;
+    border-radius: 15px;
+    display: inline-block;
     margin: 2rem;
+    padding: 1rem 2rem;
+    background: $white;
+    font-size: 2.8rem;
+}
+
+select {
+    background: transparent;
+    border: 0;
     text-transform: lowercase;
 }
 
