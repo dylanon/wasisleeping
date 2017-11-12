@@ -8362,6 +8362,12 @@ wasISleeping.findDataRange = function() {
   return dataRange;
 }
 
+wasISleeping.smoothScroll = function() {
+  $('a.scroll-button').smoothScroll({
+    speed: 500
+  });
+}
+
 wasISleeping.transformData = function () {
   // For each object in sleep data array:
   // Split the date string into year, month, day
@@ -8433,6 +8439,9 @@ function init() {
 
   // Listen for events
   wasISleeping.events();
+
+  // Set up smooth scrolling
+  wasISleeping.smoothScroll();
 }
 
 // Runs when the document is ready
