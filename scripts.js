@@ -8303,7 +8303,7 @@ wasISleeping.events = function() {
       // p for I slept for x hours something minutes, from start time to end time
       // p ...and i rated it like this!
 
-      const heading = $('<h1>');
+      const heading = $('<h2>');
       const stats = $('<p>');
       const rating = $('<p>');
       const hours = Math.floor(matchingTimes[0].minutesSlept / 60);
@@ -8312,9 +8312,9 @@ wasISleeping.events = function() {
       const endTime = matchingTimes[0].sleepEnd.getHours() + ':' + matchingTimes[0].sleepEnd.getMinutes();
       const entryRating = matchingTimes[0].rating;
 
-      heading.html('I <em>was</em> sleeping!');
-      stats.html(`I slept for ${hours} hours, ${minutes} minutes from ${startTime} to ${endTime}. `);
-      rating.html(`I rated my sleep quality ${entryRating} out of 4.`);
+      heading.html('I <span class="success-accent">was</span> sleeping!');
+      stats.html(`I slept for <span class="success-accent">${hours} hours, ${minutes} minutes</span> from ${startTime} to ${endTime}. `);
+      rating.html(`I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
 
       // Put results on the page
       $('.results').empty();
@@ -8330,18 +8330,29 @@ wasISleeping.events = function() {
       // p I was probably x
       // p The next time I slept was... x
 
-      const heading = $('<h1>');
+      const heading = $('<h2>');
       const message = $('<p>');
+      const tryAgain = $('<p>');
 
-      heading.html('I <em>wasn\'t</em> sleeping.');
-      message.html('Try another time!');
+      heading.html('I was <span class="failure-accent">wide awake</span>.');
+      message.html('I probably <span class="failure-accent">drank a lot of coffee</span>.');
+      tryAgain.html('Try another time!');
 
       // Put results on the page
       $('.results').empty();
       $('.results').append(heading);
       $('.results').append(message);
+      $('.results').append(tryAgain);
 
     }
+
+    // Display button to try it again
+    const reloadForm = $('<form>').addClass('reload-form');
+    const reloadButton = $('<input>').attr('type', 'submit').val('Try it again');
+    reloadForm.append(reloadButton);
+    
+    $('.results').append(reloadForm);
+    $('.reload-form').delay(1500).fadeTo(800, 1);
   });
 }
 

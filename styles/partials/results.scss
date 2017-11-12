@@ -1,0 +1,19 @@
+/* Results */
+.results {
+    p {
+        font-size: 3.6rem;
+        margin: 2rem;
+    }
+}
+
+.success-accent {
+    color: $success-color;
+}
+
+.failure-accent {
+    color: $failure-color;
+}
+
+.reload-form {
+    opacity: 0;
+}
