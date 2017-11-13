@@ -8124,6 +8124,22 @@ wasISleeping.sleepData = [
   }
 ]
 
+// Set up month names
+wasISleeping.monthNames = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
+]
+
 wasISleeping.createDate = function(yearX, monthX, dayX, timeX) {
   // Convert date and time strings into numbers
   // timeX must be formatted as 'hh:mm' in 24 hour time, e.g. '12:34'
@@ -8483,27 +8499,11 @@ wasISleeping.transformData = function () {
 function init() {
   // Transform a copy of the sleep data into a useable format
   wasISleeping.dataSet = wasISleeping.transformData();
-
+  
   // Find the range of times in the data set
   wasISleeping.dataRange = wasISleeping.findDataRange();
 
-  // Set up month names
-  wasISleeping.monthNames = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-  ]
-
-  // Output instructins
+  // Output instructions
   wasISleeping.displayInstructions();
 
   // Set up smooth scrolling
