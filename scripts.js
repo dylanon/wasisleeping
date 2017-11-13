@@ -8395,7 +8395,7 @@ wasISleeping.events = function() {
   
       // Display button to try it again
       const reloadForm = $('<form>').addClass('reload-form');
-      const reloadButton = $('<input>').attr('type', 'submit').val('Try it again');
+      const reloadButton = $('<input>').addClass('reload-button').attr('type', 'submit').val('Try it again');
       reloadForm.append(reloadButton);
       
       $('.results').append(reloadForm);
