@@ -8165,6 +8165,7 @@ wasISleeping.displayInstructions = function() {
 }
 
 wasISleeping.events = function() {
+  // LISTEN FOR CHANGE IN VALUE OF YEAR SELECTOR
   // When the year is chosen, populate the months that have data & update progress bar
   $('#year-selector').on('change', function() {
     // Get the year
@@ -8214,6 +8215,7 @@ wasISleeping.events = function() {
     $('.progress-bar').slideDown();
   }); // #year-selector on change listener ends
 
+  // LISTEN FOR CHANGE IN VALUE OF MONTH SELECTOR
   // When the month is chosen, populate the days that have data & update the progress bar
   $('#month-selector').on('change', function() {
     // Get the year
@@ -8265,6 +8267,7 @@ wasISleeping.events = function() {
     $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingYear);
   }); // #month-selector on change listener ends
 
+  // LISTEN FOR CHANGE IN VALUE OF DAY SELECTOR
   // When the day is changed, reset the time & update the progress bar
   $('#day-selector').on('change', function() {
     $('#time-selector').val('');
@@ -8282,6 +8285,7 @@ wasISleeping.events = function() {
     $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingDay + ', ' + workingYear);
   });
 
+  // LISTEN FOR CHANGE IN VALUE OF TIME SELECTOR
   // When the time is changed, warn if it's out of range & update progress bar
   $('#time-selector').on('change', function() {
     // Get the year
@@ -8312,6 +8316,7 @@ wasISleeping.events = function() {
     $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingDay + ', ' + workingYear + ' at ' + workingTime);
   });
 
+  // LISTEN FOR FORM SUBMIT (DATE FORM)
   // On form submit, store the user's selections
   $('#date-form').on('submit', function(event) {
     event.preventDefault();
