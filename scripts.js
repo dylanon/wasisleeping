@@ -8195,6 +8195,11 @@ wasISleeping.events = function() {
         .val(monthNumber);
       $('#month-selector').append(monthOptionMarkup);
     });
+
+    // Write selected year in the progress bar, and display the progress bar
+    $('.user-progress').text(workingYear);
+    $('.progress-bar').slideDown();
+
   }); // #year-selector on change listener ends
 
   // When the month is chosen, populate the days that have data
@@ -8247,11 +8252,25 @@ wasISleeping.events = function() {
       $('#day-selector').append(dayOptionMarkup);
     });
 
+    // Update the progress bar
+    $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingYear);
   }); // #month-selector on change listener ends
 
   // When the day is changed, reset the time
   $('#day-selector').on('change', function() {
     $('#time-selector').val('');
+
+    // Get the year
+    const workingYear = $('#year-selector').val();
+    
+    // Get the month
+    const workingMonth = $('#month-selector').val();
+
+    // Get the day
+    const workingDay = $('#day-selector').val();
+
+    // Update the progress bar
+    $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingDay + ', ' + workingYear);
   });
 
   // When the time is changed, warn if it's out of range
@@ -8279,6 +8298,9 @@ wasISleeping.events = function() {
       alert('Oops - I stopped sleep tracking by then. Try an earlier time.');
       $('#time-selector').val('');
     }
+
+    // Update the progress bar
+    $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingDay + ', ' + workingYear + ' at ' + workingTime);
   });
 
   // On form submit, store the user's selections

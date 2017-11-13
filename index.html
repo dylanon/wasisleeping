@@ -30,6 +30,9 @@
         </header>
         
         <main>
+            <div class="progress-bar">
+                <p>You picked: <span class="user-progress"></span></p>
+            </div>
             <section id="year-section" class="fullscreen-section">
                 <div class="section-content">
                     <h2><label class="instruction" for="year-selector">What year?</label></h2>
@@ -82,7 +85,7 @@
                     <input name="time" type="time" id="time-selector" form="date-form">
                     <form id="date-form">
                         <label for="submit-button" class="visuallyhidden">Check if I was sleeping!</label>
-                        <input type="submit" id="submit-button" value="Ok - Was I sleeping?">
+                        <input type="submit" id="submit-button" value="Ok - Were you sleeping?">
                     </form>
                     <!-- This hidden link is triggered when the form submits - scrolls the screen to results section -->
                     <a href="#results-section" class="scroll-button submit-scroll-trigger"></a>
