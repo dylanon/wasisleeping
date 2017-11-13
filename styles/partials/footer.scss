@@ -1,0 +1,23 @@
+/* Footer */
+
+footer {
+    text-align: center;
+    font-size: 1.4rem;
+
+    a {
+        color: $success-color;
+        transition: color 0.3s ease;
+
+        &:hover {
+            color: $failure-color;
+        }
+    }
+
+    // Add a line above the footer
+    &::before {
+        content: '';
+        display: block;
+        height: 2px;
+        background: $text-color;
+    }
+}
