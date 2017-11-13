@@ -8344,6 +8344,9 @@ wasISleeping.events = function() {
         if (entryRating > 0) {
           $('.results').append(rating);
         }
+
+        // Expand the section to fill the screen
+        $('#results-section').addClass('fullscreen-section');
   
       } else {
         // h1 - wasn't sleeping
@@ -8363,7 +8366,9 @@ wasISleeping.events = function() {
         $('.results').append(heading);
         $('.results').append(message);
         $('.results').append(tryAgain);
-  
+
+        // Expand the section to fill the screen
+        $('#results-section').addClass('fullscreen-section');
       }
   
       // Display button to try it again
