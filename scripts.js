@@ -8301,10 +8301,10 @@ wasISleeping.events = function() {
 
     // Compare with earliest and latest dates from data
     if (workingDate.getTime() < wasISleeping.dataRange.earliestDate.getTime()) {
-      alert('Oops - I hadn\'t yet started sleep tracking. Try a later time.');
+      $('.warning').html('<p>Oops - I hadn\'t yet started sleep tracking. Try a later time.</p>');
       $('#time-selector').val('');
     } else if (workingDate.getTime() > wasISleeping.dataRange.latestDate.getTime()) {
-      alert('Oops - I stopped sleep tracking by then. Try an earlier time.');
+      $('.warning').html('<p>Oops - I stopped sleep tracking by then. Try an earlier time.</p>');
       $('#time-selector').val('');
     }
 
@@ -8326,12 +8326,12 @@ wasISleeping.events = function() {
     // Only look for matches if all of the selections are filled out
     if (dateSelections.year.length === 0 || dateSelections.month.length === 0 || dateSelections.day.length === 0 || dateSelections.time.length === 0) {
       // Throw a warning and don't proceed
-      $('.submit-warning').html(`<p>Oops - Scroll up to complete your selections!</p>`);
+      $('.warning').html(`<p>Oops - Scroll up to complete your selections!</p>`);
     } else {
       // It's all good - Run the program
 
       // Clear any warnings
-      $('.submit-warning').empty();
+      $('.warning').empty();
 
       // Simulate a click to advance screen to the results section
       $('a.submit-scroll-trigger').trigger('click');

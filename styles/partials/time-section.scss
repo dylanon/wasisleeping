@@ -38,10 +38,14 @@ input[type=time] {
     display: none;
 }
 
-.submit-warning {
+.warning {
     @extend .failure-accent;
     font-size: 2.4rem;
     position: absolute;
+
+    p {
+        margin: 0;
+    }
 
     @media (max-width: 480px) {
         font-size: 2rem;
