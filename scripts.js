@@ -8399,7 +8399,7 @@ wasISleeping.events = function() {
       reloadForm.append(reloadButton);
       
       $('.results').append(reloadForm);
-      $('.reload-form').delay(1500).fadeTo(800, 1);
+      $('.reload-form').delay(1000).fadeTo(800, 1);
     }
     
   }); // end of on form submit event listener
