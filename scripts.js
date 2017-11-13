@@ -8165,7 +8165,7 @@ wasISleeping.displayInstructions = function() {
 }
 
 wasISleeping.events = function() {
-  // When the year is chosen, populate the months that have data
+  // When the year is chosen, populate the months that have data & update progress bar
   $('#year-selector').on('change', function() {
     // Get the year
     const workingYear = $('#year-selector').val();
@@ -8175,7 +8175,6 @@ wasISleeping.events = function() {
 
     // Collect the months from all sleep starts and sleep ends in the year
     wasISleeping.dataSet.forEach((entry) => {
-
       // Store month of sleep start
       if (entry.sleepStart.getFullYear() == workingYear) {
       const entryMonth = entry.sleepStart.getMonth();
@@ -8183,7 +8182,6 @@ wasISleeping.events = function() {
           monthsInYear.push(entryMonth);
         }
       }
-
       // Store month of sleep end
       if (entry.sleepEnd.getFullYear() == workingYear) {
         const entryMonth = entry.sleepEnd.getMonth();
@@ -8191,7 +8189,6 @@ wasISleeping.events = function() {
           monthsInYear.push(entryMonth);
         }
       }
-
     });
 
     // Sort array of month numbers ascending
@@ -8215,10 +8212,9 @@ wasISleeping.events = function() {
     // Write selected year in the progress bar, and display the progress bar
     $('.user-progress').text(workingYear);
     $('.progress-bar').slideDown();
-
   }); // #year-selector on change listener ends
 
-  // When the month is chosen, populate the days that have data
+  // When the month is chosen, populate the days that have data & update the progress bar
   $('#month-selector').on('change', function() {
     // Get the year
     const workingYear = $('#year-selector').val();
@@ -8231,29 +8227,26 @@ wasISleeping.events = function() {
     
     // Collect the days from all sleep starts and sleep ends in the month
     wasISleeping.dataSet.forEach((entry) => {
-
-      // Store month of sleep start
+      // Store day of sleep start
       if (entry.sleepStart.getMonth() == workingMonth && entry.sleepStart.getFullYear() == workingYear) {
       const entryDay = entry.sleepStart.getDate();
         if (daysInMonth.includes(entryDay) === false) {
           daysInMonth.push(entryDay);
         }
       }
-
-      // Store month of sleep end
+      // Store day of sleep end
       if (entry.sleepEnd.getMonth() == workingMonth && entry.sleepEnd.getFullYear() == workingYear) {
         const entryDay = entry.sleepEnd.getDate();
         if (daysInMonth.includes(entryDay) === false) {
           daysInMonth.push(entryDay);
         }
       }
-
     });
 
-    // Sort array of month numbers ascending
+    // Sort array of days ascending
     daysInMonth.sort((a, b) => (a - b));
 
-    // Empty the month selector
+    // Empty the day selector
     $('#day-selector').empty();
     $('#day-selector').append($('<option>')
       .text('Select a day')
@@ -8272,7 +8265,7 @@ wasISleeping.events = function() {
     $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingYear);
   }); // #month-selector on change listener ends
 
-  // When the day is changed, reset the time
+  // When the day is changed, reset the time & update the progress bar
   $('#day-selector').on('change', function() {
     $('#time-selector').val('');
 
@@ -8289,7 +8282,7 @@ wasISleeping.events = function() {
     $('.user-progress').text(wasISleeping.monthNames[workingMonth] + ' ' + workingDay + ', ' + workingYear);
   });
 
-  // When the time is changed, warn if it's out of range
+  // When the time is changed, warn if it's out of range & update progress bar
   $('#time-selector').on('change', function() {
     // Get the year
     const workingYear = $('#year-selector').val();
@@ -8332,10 +8325,11 @@ wasISleeping.events = function() {
 
     // Only look for matches if all of the selections are filled out
     if (dateSelections.year.length === 0 || dateSelections.month.length === 0 || dateSelections.day.length === 0 || dateSelections.time.length === 0) {
-
+      // Throw a warning and don't proceed
       $('.submit-warning').html(`<p>Oops - Scroll up to complete your selections!</p>`);
-
     } else {
+      // It's all good - Run the program
+
       // Clear any warnings
       $('.submit-warning').empty();
 
@@ -8352,15 +8346,8 @@ wasISleeping.events = function() {
         return selectedDate.getTime() >= entry.sleepStart.getTime() && selectedDate.getTime() <= entry.sleepEnd.getTime();
       });
   
-      // Create results markup to inject into page
-      // let resultsMarkup = '';
-  
       // Check if there were any matches and display the results markup
       if (matchingTimes.length > 0) {
-        // h1 - was sleeping
-        // p for I slept for x hours something minutes, from start time to end time
-        // p ...and i rated it like this!
-  
         const heading = $('<h2>');
         const stats = $('<p>');
         const rating = $('<p>');
@@ -8370,7 +8357,7 @@ wasISleeping.events = function() {
         const endTime = matchingTimes[0].sleepEndString;
         const entryRating = matchingTimes[0].rating;
   
-        heading.html('I <span class="success-accent">was</span> sleeping!');
+        heading.html('I was <span class="success-accent">sleeping</span>!');
         stats.html(`I slept for <span class="success-accent">${hours} hours, ${minutes} minutes</span> from ${startTime} to ${endTime}. `);
         rating.html(`When I woke up, I rated my sleep quality <span class="success-accent">${entryRating} out of 4</span>.`);
   
@@ -8381,16 +8368,8 @@ wasISleeping.events = function() {
         // If the rating has a value ('no value' is actually an empty string)
         if (entryRating > 0) {
           $('.results').append(rating);
-        }
-
-        // Expand the section to fill the screen
-        $('#results-section').addClass('fullscreen-section');
-  
+        }  
       } else {
-        // h1 - wasn't sleeping
-        // p I was probably x
-        // p The next time I slept was... x
-  
         const heading = $('<h2>');
         const message = $('<p>');
         const tryAgain = $('<p>');
@@ -8404,10 +8383,10 @@ wasISleeping.events = function() {
         $('.results').append(heading);
         $('.results').append(message);
         $('.results').append(tryAgain);
-
-        // Expand the section to fill the screen
-        $('#results-section').addClass('fullscreen-section');
       }
+
+      // Expand the results section to fill the screen
+      $('#results-section').addClass('fullscreen-section');
   
       // Display button to try it again
       const reloadForm = $('<form>').addClass('reload-form');
@@ -8499,7 +8478,7 @@ wasISleeping.transformData = function () {
 function init() {
   // Transform a copy of the sleep data into a useable format
   wasISleeping.dataSet = wasISleeping.transformData();
-  
+
   // Find the range of times in the data set
   wasISleeping.dataRange = wasISleeping.findDataRange();
 
