@@ -3,4 +3,5 @@ project3Info
 sleepBotData
 design
 prepros-6.config
-styles/style.css
+public/
+node_modules/

@@ -11,6 +11,9 @@
 //   - if no, 'I WASN'T SLEEPING'
 // - invite to try it again!
 
+import $ from 'jquery';
+import smoothScroll from 'jquery-smooth-scroll';
+
 // Create an object for namespacing the app
 const wasISleeping = {};
 

@@ -1,0 +1,37 @@
+{
+  "name": "wasisleeping.dylanon.com",
+  "version": "1.0.0",
+  "description": "Explore real data on over 1100 of my sleeps from 2014 - 2017. Because the Internet.",
+  "main": "gulpfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dylanon/wasisleeping.git"
+  },
+  "author": "Dylan On",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dylanon/wasisleeping/issues"
+  },
+  "homepage": "https://github.com/dylanon/wasisleeping#readme",
+  "devDependencies": {
+    "babel-preset-env": "^1.6.1",
+    "babelify": "^7.3.0",
+    "browser-sync": "^2.18.13",
+    "browserify": "^13.3.0",
+    "gulp": "^3.9.1",
+    "gulp-autoprefixer": "^4.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-notify": "^3.0.0",
+    "gulp-plumber": "^1.1.0",
+    "gulp-sass": "^3.1.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0"
+  },
+  "dependencies": {
+    "jquery": "^3.2.1",
+    "jquery-smooth-scroll": "^2.2.0"
+  }
+}
