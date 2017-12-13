@@ -365,6 +365,13 @@ wasISleeping.transformData = function () {
   return transformed;
 }
 
+function loadParticles() {
+  /* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
+  particlesJS.load('particles-js', '../assets/particlesjs-config.json', function () {
+    console.log('callback - particles.js config loaded');
+  });
+}
+
 function init() {
   // Transform a copy of the sleep data into a useable format
   wasISleeping.dataSet = wasISleeping.transformData();
@@ -380,6 +387,9 @@ function init() {
 
   // Listen for events
   wasISleeping.events();
+
+  // Load particles
+  loadParticles();
 }
 
 // Runs when the document is ready

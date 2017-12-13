@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "jquery": "^3.2.1",
-    "jquery-smooth-scroll": "^2.2.0"
+    "jquery-smooth-scroll": "^2.2.0",
+    "particles.js": "^2.0.0"
   }
 }

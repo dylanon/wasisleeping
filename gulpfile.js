@@ -17,8 +17,8 @@ gulp.task('markup', () => {
 });
 
 gulp.task('assets', () => {
-	return gulp.src('dev/images/*')
-	.pipe(gulp.dest('public/images'))
+	return gulp.src('dev/assets/*')
+	.pipe(gulp.dest('public/assets'))
 });
 
 gulp.task('styles', () => {
@@ -56,7 +56,12 @@ gulp.task('bs', () => {
 	});
 });
 
-gulp.task('default', ['js','markup','styles','assets','bs'], () => {
+gulp.task('particles-js', () => {
+	return gulp.src('node_modules/particles.js/particles.js')
+		.pipe(gulp.dest('public/scripts'))
+});
+
+gulp.task('default', ['js','markup','styles','assets','particles-js','bs'], () => {
 	gulp.watch('dev/**/*.js',['js']);
     gulp.watch('dev/**/*.scss',['styles']);
     gulp.watch('dev/*.html', ['markup', reload]);
