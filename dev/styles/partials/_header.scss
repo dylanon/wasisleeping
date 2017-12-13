@@ -7,10 +7,14 @@ header {
     opacity: 0;
     margin: 4rem 0;
     color: lighten($text-color, 10%);
+    font: {
+        family: 'Open Sans', sans-serif;
+        weight: 700;
+    }
+    text-transform: initial;
 
     p {
         margin: 0.75rem;
-        letter-spacing: 2px;
 
         @media (max-width: 480px) {
          margin: 2rem;   
